@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <title>UniteTheStage Status</title>
+    <style>
+      body {
+        font-family: 'Trebuchet-MS', 'Calibri';
+        font-size: 14px;
+      }
+      #status-label {
+        font-weight: bold;
+        color: red;
+      }
+
+      #is-scraping-label {
+        margin: 10px 0;
+      }
+
+      button {
+        padding: 20px;
+        color: white;
+        border-radius: 20px;
+      }
+
+      #start-button {
+        background-color: green;
+      }
+
+      #stop-button {
+        background-color: red;
+      } 
+
+    </style>
+  </head>
+  <body>
+    <p>Greetiiings</p>
+    <p>
+      <button id="start-button">Start Scraping</button>
+      <button id="stop-button">Stop Scraping</button>
+    </p>
+
+    <p id="is-scraping-label"></p>
+    <p id="status-label"></p>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script>
+
+      $(function () {
+        var socket = io();
+        var myInterval = 0;
+        var frequency = 600000;
+        var counter = 1;
+        
+        $('#start-button').on('click', function() {
+          $('#is-scraping-label').text('Starting... I\'ll check every 10 minutes and update the text :)');
+          myInterval = setInterval(function() {
+            $('#is-scraping-label').text('I\'m looking for the results right now! (' + counter + ')');
+            socket.emit('start scraping')
+            counter++;
+          }, frequency)
+        });
+
+        $('#stop-button').on('click', function() {
+          clearInterval(myInterval);
+          socket.emit('stop scraping');
+          $('#is-scraping-label').text('I stopped looking for the results! (' + counter + ')');
+          counter = 1;
+        });
+
+        socket.on('scrape status', function(isFormAnnounced){
+          $('#status-label').text(isFormAnnounced === true ? 'The form is up my friend! RUN!' : 'Nothing yet, friendo');
+          // if the form is announced, no point in looking at the page anymore
+          if (isFormAnnounced === true) {
+            alert('Sorry to interrupt, but the form you\'re looking for is up!')
+            clearInterval(myInterval);
+          }
+        });
+        
+      });
+      
+    </script>    
+
+  </body>
+
+</html>

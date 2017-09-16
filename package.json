@@ -1,0 +1,24 @@
+{
+  "name": "unite-crawler",
+  "version": "0.0.1",
+  "description": "Scrape le web.",
+  "main": "unite.js",
+  "author": "Cems",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cemsterr/unite-the-band-crawler"
+  },
+  "scripts": {
+    "start": "node unite.js",
+    "s": "nodemon unite.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "~4.15.2",
+    "nodemailer": "^4.1.0",
+    "nodemon": "^1.12.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "socket.io": "^2.0.3"
+  }
+}
