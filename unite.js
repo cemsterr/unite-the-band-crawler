@@ -9,7 +9,7 @@ const io = require('socket.io')(http);
 
 const path = require('path');
 const gmailer = require('./mailer-gmail');
-const friendMailer = require('./mailer-friends');
+const friendMailer = require('./to-ignore/mailer-friends');
 
 const port = process.env.PORT || 4567;
 const url = 'http://www.unitetheband.com/unite-the-stage-2/';
